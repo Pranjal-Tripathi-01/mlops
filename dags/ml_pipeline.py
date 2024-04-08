@@ -16,8 +16,6 @@ default_args = {
     'retries': 1
 }
 
-git_repo_dir = 'https://github.com/Pranjal-Tripathi-01/mlops_assignment'
-
 
 with DAG('ml_pipeline', default_args=default_args, 
     description='A simple DAG', 
@@ -38,9 +36,4 @@ with DAG('ml_pipeline', default_args=default_args,
         python_callable=training_model
     )
 
-    task4 = BashOperator(
-        task_id='push_to_github',
-        bash_command=f'cd {git_repo_dir} && git add . && git commit -m "$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)" && git push origin master',
-    )
-
-    task1 >> task2 >> task3 >> task4
+    task1 >> task2 >> task3 
